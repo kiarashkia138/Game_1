@@ -9,7 +9,7 @@ class SignUpMenu:
         width = window.winfo_screenwidth()
         height = window.winfo_screenheight()
         middle_x = int(width/2)
-        distance_y = int(height/4)
+        distance_y = int(height/3)
         widget_width = 125
         window.geometry(f"{width}x{height}")
 
@@ -24,7 +24,7 @@ class SignUpMenu:
         canvas.pack()
         canvas.create_image(0, 0, anchor=tk.NW, image=bg_image)
 
-        #
+        # sign up :
         username_var = tk.StringVar()
         password_var = tk.StringVar()
         confirm_password_var = tk.StringVar()
@@ -39,28 +39,61 @@ class SignUpMenu:
 
         # username :
         username_label = tk.Label(window, textvariable=username_lab, font=('normal',14))
-        username_label.place(x=middle_x - widget_width, y=distance_y - 25, height=25)
+        username_label.place(x=middle_x + 70, y=distance_y - 25, height=25)
 
         username_entry = tk.Entry(window, textvariable=username_var, font=('Arial',11), bd=1)
-        username_entry.place(x=middle_x - widget_width, y=distance_y, width=widget_width*2, height=25)
+        username_entry.place(x=middle_x + 70, y=distance_y, width=widget_width*2, height=25)
 
         # password:
         password_label = tk.Label(window, textvariable=password_lab, font=('normal',14))
-        password_label.place(x=middle_x - widget_width, y=distance_y + 50, height=25)
+        password_label.place(x=middle_x + 70, y=distance_y + 50, height=25)
 
         password_entry = tk.Entry(window, textvariable=password_var, font=('normal',17), bd=1, show="*")
-        password_entry.place(x=middle_x - widget_width, y=distance_y + 75, width=widget_width*2, height=25)
+        password_entry.place(x=middle_x + 70, y=distance_y + 75, width=widget_width*2, height=25)
 
         confirm_password_label = tk.Label(window, textvariable=confirm_password_lab, font=('normal',14))
-        confirm_password_label.place(x=middle_x - widget_width, y=distance_y + 125, height=25)
+        confirm_password_label.place(x=middle_x + 70, y=distance_y + 125, height=25)
 
         confirm_password_entry = tk.Entry(window, textvariable=confirm_password_var, font=('normal',17), bd=1, show="*")
-        confirm_password_entry.place(x=middle_x - widget_width, y=distance_y + 150, width=widget_width*2, height=25)
+        confirm_password_entry.place(x=middle_x + 70, y=distance_y + 150, width=widget_width*2, height=25)
 
         # button :
         sign_up_button = tk.Button(window, text="Sign Up", font=('calibri', 16, 'bold'), bg="#2196F3", fg="white", bd=1)
-        sign_up_button.bind('<Button-1>', lambda event: sign_up(username_var.get(), password_var.get(), confirm_password_var.get()))
-        sign_up_button.place(x=middle_x - widget_width, y=distance_y + 240, width=widget_width*2, height=30)
+        sign_up_button.bind('<Button-1>',
+                            lambda event: sign_up(username_var.get(), password_var.get(), confirm_password_var.get()))
+        sign_up_button.place(x=middle_x + 70, y=distance_y + 240, width=widget_width*2, height=30)
+
+        # login :
+        username_var2 = tk.StringVar()
+        password_var2 = tk.StringVar()
+
+        username_lab2 = tk.StringVar()
+        password_lab2 = tk.StringVar()
+
+        username_lab2.set("Username :")
+        password_lab2.set("Password :")
+
+        distance_y += 55
+
+        # username :
+        username_label = tk.Label(window, textvariable=username_lab2, font=('normal', 14))
+        username_label.place(x=middle_x - (70 + 2 * widget_width), y=distance_y - 25, height=25)
+
+        username_entry = tk.Entry(window, textvariable=username_var2, font=('Arial', 11), bd=1)
+        username_entry.place(x=middle_x - (70 + 2 * widget_width), y=distance_y, width=widget_width * 2, height=25)
+
+        # password:
+        password_label = tk.Label(window, textvariable=password_lab2, font=('normal', 14))
+        password_label.place(x=middle_x - (70 + 2 * widget_width), y=distance_y + 50, height=25)
+
+        password_entry = tk.Entry(window, textvariable=password_var2, font=('normal', 17), bd=1, show="*")
+        password_entry.place(x=middle_x - (70 + 2 * widget_width), y=distance_y + 75, width=widget_width * 2, height=25)
+
+        # button :
+        login_button = tk.Button(window, text="Login", font=('calibri', 16, 'bold'), bg="#2196F3", fg="white", bd=1)
+        login_button.bind('<Button-1>',
+                            lambda event: login(username_var2.get(), password_var2.get()))
+        login_button.place(x=middle_x - (70 + 2 * widget_width), y=distance_y + 240 - 55, width=widget_width * 2, height=30)
 
         # show :
         window.mainloop()
@@ -70,9 +103,22 @@ def sign_up(username, password, confirm_password):
     # print("username : ", username, " password : ", password, " confirm : ", confirm_password)
 
     # TODO : write func to check if username exist !!
-    if username == "" or password == "" or confirm_password == "" or username == "exist" or password != confirm_password:
+    if username == "" or password == "" or confirm_password == "" or\
+            password != confirm_password or username_exist(username) != 200:
         return
     else:
         print("username : ", username, " password : ", password, " confirm : ", confirm_password)
-#         signup
+
+
+def login(username, password):
+    if username == "" or password == "" or username_exist(username) != 200:
+        return
+    else:
+        print("username : ", username, " password : ", password)
+
+
+def username_exist(username):
+    return 200
+
+
 
