@@ -1,6 +1,6 @@
 
 
-class UserDataBase:
+class User:
 
     @classmethod
     def create(cls, username, score):

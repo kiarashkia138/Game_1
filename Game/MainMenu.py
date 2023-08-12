@@ -1,8 +1,9 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
-from UserDataBase import UserDataBase
+from User import User
 import sys
+from network import Network
 
 
 class MainMenu:
@@ -27,7 +28,7 @@ class MainMenu:
         distance_y = int(height / 3)
 
         score_lab = tk.StringVar()
-        score_lab.set(UserDataBase.score)
+        score_lab.set(User.score)
         score_label = tk.Label(window, textvariable=score_lab, font=('normal', 20))
         score_label.place(x=middle_x - 40, y=distance_y + 50, height=40)
 

@@ -1,8 +1,10 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
-from UserDataBase import UserDataBase
+import socket
+from User import User
 from MainMenu import MainMenu
+from network import Network
 
 
 class SignUpMenu:
@@ -106,33 +108,35 @@ def sign_up(username, password, confirm_password, window):
 
     # TODO : write func to check if username exist !!
     if username == "" or password == "" or confirm_password == "" or\
-            password != confirm_password or username_exist(username) != 200:
+            password != confirm_password or username_exist("signup", username, password) != 200:
         return
     else:
         print("username : ", username, " password : ", password, " confirm : ", confirm_password)
-        UserDataBase.create(username, 0)
+
         MainMenu.create(window)
         MainMenu.show()
 
 
 def login(username, password, window):
-    if username == "" or password == "" or username_exist(username) != 200:
+    if username == "" or password == "" or username_exist("login", username, password) != 200:
         return
     else:
         print("username : ", username, " password : ", password)
-        # get user information
-        score = 0
-        #
-        UserDataBase.create(username, score)
+
         MainMenu.create(window)
         MainMenu.show()
 
 
-def username_exist(username):
+def username_exist(state, username, password):
     # return 200 if ok
-    # return 400 if password is not correct
-    # return 404 if username doesn't exist
-    return 200
+    # return 400 if not ok
+    data = state + "," + username + "," + password
+    response = Network.send_str(data).split(",")
+
+    if response[0] == "200":
+        User.create(username, int(response[1]))
+
+    return int(response[0])
 
 
 
